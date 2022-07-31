@@ -1,0 +1,135 @@
+def gradient_descent(X_y, iters, alpha):
+    Beta = np.random.rand(2)
+
+    for i in xrange(iters):
+        # здесь надо перемешать Х и разбить на батчи
+        X = np.random.permutation(X_y)
+        np.random.shuffle(X_y)
+        batches = np.array_split(X_y)
+
+        # далее в цикле по всем батчам считаем ошибку и градиент (ошибку надо считать по всем объектам выборки)
+        for Xy_batch in batches:
+           n = Xy_batch.shape[0] 
+           X = Xy_batch[:, 1:]
+           y = Xy_batch[:, 0]
+
+           y_hat = X.dot(Beta)
+        
+           # считаем ошибку и значение функции потерь
+           error =  y - y_hat
+
+           # считаем градиент
+           grad = X.T.dot(error)/n
+
+           # обновляем коэффициенты
+           Beta = Beta - alpha * grad
+        n = Xy.shape[0] 
+
+    return Beta
+
+# запускать на уже нормализованной выборке
+
+
+
+
+Правило останова:
+
+def gradient_descent_upd(X, y, alpha, tol=10**-3):
+    n = y.shape[0] 
+    Beta = np.random.rand(2)
+    delta = 10
+    cost_prev = 0
+    i = 0
+    while (delta < tol) and (i < 1000):
+        y_hat = X.dot(Beta)
+        
+        # считаем ошибку и значение функции потерь
+        error =  y - y_hat
+        cost = np.sum(error**2)/float(2*n)
+        delta = abs(cost-cost_prev)
+        cost_prev = cost
+        i += 1
+
+        # считаем градиент
+        grad = X.T.dot(error)/n
+
+        # обновляем коэффициенты
+        Beta = Beta - alpha * grad
+
+    print i
+    return Beta
+
+
+
+
+
+
+
+
+def gradient_descent_upd(X, y, alpha, tol=10**-3):
+    n = y.shape[0] 
+    Beta = np.random.rand(2)
+    delta = 10
+    cost_prev = 0
+    i = 0
+    while (delta < tol) and (i < 1000):
+        y_hat = X.dot(Beta)
+        
+        # считаем ошибку и значение функции потерь
+        error =  y - y_hat
+        cost = np.sum(error**2)/float(2*n)
+        delta = abs(cost-cost_prev)
+        cost_prev = cost
+        i += 1
+
+        # считаем градиент
+        grad = X.T.dot(error)/n
+
+        # обновляем коэффициенты
+        alpha *= 0.95
+        Beta = Beta - alpha * grad
+        
+    print i
+    return Beta
+
+
+
+costs=[]
+Betas=[]
+def gradient_descent_upd(X, y, alpha, tol=10**-9):
+    n = y.shape[0] 
+    Beta = np.random.rand(2)
+    delta = 10
+    cost_prev = 0
+    i = 0
+    while (delta < tol) and (i < 1000):
+        y_hat = X.dot(Beta)
+        
+        # считаем ошибку и значение функции потерь
+        error =  y - y_hat
+        cost = np.sum(error**2)/float(2*n)
+        delta = abs(cost-cost_prev)
+        cost_prev = cost
+        i += 1
+
+        # считаем градиент
+        grad = X.T.dot(error)/n
+
+        # обновляем коэффициенты
+        alpha *= 0.95
+        Beta = Beta - alpha * grad
+        if i % 10 == 0:
+           costs.append(cost)
+           Betas.append(Beta)
+
+    return Beta, costs, Betas
+
+Beta, costs, Betas = gradient_descent_upd(X, y, 0.40, tol=10**-3)
+
+df = pd.read_csv('space_ga.csv')
+
+#x = df.iloc
+#y = df.iloc
+
+
+
